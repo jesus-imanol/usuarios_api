@@ -13,8 +13,8 @@ func NewRegisterUserUseCase(db repositories.IUser) *RegisterUserUseCase {
 	return &RegisterUserUseCase{db: db}
 }
 
-func (ru *RegisterUserUseCase) Execute(fullName, email, passwordHash, gender, matchPreference, city, state, interests, statusMessage, profilePicture string) (*entities.User, error) {
-	user := entities.NewUser(fullName, email, passwordHash, gender, matchPreference, city, state, interests, statusMessage, profilePicture)
+func (ru *RegisterUserUseCase) Execute(fullName, email, passwordHash string) (*entities.User, error) {
+	user := entities.NewUser(fullName, email, passwordHash)
 	err := ru.db.Register(user)
 	if err != nil {
 		return nil, err

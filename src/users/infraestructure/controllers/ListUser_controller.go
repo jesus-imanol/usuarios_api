@@ -29,15 +29,8 @@ func (lu *ListUserController) GetAllUsers(g *gin.Context) {
 			"type": "users",
 			"id":   user.Id,
 			"attributes": gin.H{
-				"full_name":        user.FullName,
-				"profile_picture":  user.ProfilePicture,
-				"gender":           user.Gender,
-				"city":             user.State,
-				"status_message":   user.StatusMessage,
-				"match_preference": user.MatchPreference,
-				"interests":        user.Interests,
-				"email":            user.Email,
-				"state":            user.State,
+				"full_name": user.FullName,
+				"email":     user.Email,
 			},
 		}
 		response = append(response, userResponse)

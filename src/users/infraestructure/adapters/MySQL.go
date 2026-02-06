@@ -24,28 +24,14 @@ func (mysql *MySQL) Register(user *entities.User) error {
 		INSERT INTO users (
 			full_name, 
 			email, 
-			password_hash, 
-			gender, 
-			match_preference, 
-			city, 
-			state, 
-			interests, 
-			status_message, 
-			profile_picture
-		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+			password_hash
+		) VALUES (?, ?, ?)
 	`
 	result, err := mysql.conn.ExecutePreparedQuery(
 		query,
 		user.FullName,
 		user.Email,
 		user.PasswordHash,
-		user.Gender,
-		user.MatchPreference,
-		user.City,
-		user.State,
-		user.Interests,
-		user.StatusMessage,
-		user.ProfilePicture,
 	)
 	if err != nil {
 		fmt.Println(err)
@@ -71,9 +57,9 @@ func (mysql *MySQL) Register(user *entities.User) error {
 	return nil
 }
 
-func (mysql *MySQL) Update(id int32, fullname string, email string, passwordHash string, gender string, matchPreference string, city string, state string, interests string, statusMessage string) error {
-	query := "UPDATE users SET full_name = ?, email = ?, password_hash = ?, gender = ?, match_preference = ?, city = ?, state = ?, interests = ?, status_message = ? WHERE id = ?"
-	result, err := mysql.conn.ExecutePreparedQuery(query, fullname, email, passwordHash, gender, matchPreference, city, state, interests, statusMessage, id)
+func (mysql *MySQL) Update(id int32, fullname string, email string, passwordHash string) error {
+	query := "UPDATE users SET full_name = ?, email = ?, password_hash = ? WHERE id = ?"
+	result, err := mysql.conn.ExecutePreparedQuery(query, fullname, email, passwordHash, id)
 	if err != nil {
 		fmt.Println(err)
 		return err
@@ -105,7 +91,7 @@ func (mysql *MySQL) GetAll() ([]*entities.User, error) {
 	var updatedAt string
 	for rows.Next() {
 		user := entities.User{}
-		err := rows.Scan(&user.Id, &user.FullName, &user.Email, &user.PasswordHash, &user.Gender, &user.MatchPreference, &user.City, &user.State, &user.Interests, &user.StatusMessage, &user.ProfilePicture, &createdAt, &updatedAt, &deleted)
+		err := rows.Scan(&user.Id, &user.FullName, &user.Email, &user.PasswordHash, &createdAt, &updatedAt, &deleted)
 		if err != nil {
 			fmt.Println(err)
 			return nil, err
@@ -150,7 +136,7 @@ func (mysql *MySQL) GetById(id int32) (*entities.User, error) {
 	var updatedAt string
 	var deleted bool
 	for rows.Next() {
-		err := rows.Scan(&user.Id, &user.FullName, &user.Email, &user.PasswordHash, &user.Gender, &user.MatchPreference, &user.City, &user.State, &user.Interests, &user.StatusMessage, &user.ProfilePicture, &createdAt, &updatedAt, &deleted)
+		err := rows.Scan(&user.Id, &user.FullName, &user.Email, &user.PasswordHash, &createdAt, &updatedAt, &deleted)
 		if err != nil {
 			fmt.Println(err)
 			return nil, err
@@ -192,7 +178,7 @@ func (mysql *MySQL) Login(email string) (*entities.User, error) {
 	var updatedAt string
 	var deleted bool
 	for rows.Next() {
-		err := rows.Scan(&user.Id, &user.FullName, &user.Email, &user.PasswordHash, &user.Gender, &user.MatchPreference, &user.City, &user.State, &user.Interests, &user.StatusMessage, &user.ProfilePicture, &createdAt, &updatedAt, &deleted)
+		err := rows.Scan(&user.Id, &user.FullName, &user.Email, &user.PasswordHash, &createdAt, &updatedAt, &deleted)
 		if err != nil {
 			fmt.Println(err)
 			return nil, err

@@ -42,15 +42,8 @@ func (luc *LoginUserController) LoginUser(g *gin.Context) {
 			"type": "users",
 			"id":   foundUser.Id,
 			"attributes": gin.H{
-				"full_name":        foundUser.FullName,
-				"profile_picture":  foundUser.ProfilePicture,
-				"gender":           foundUser.Gender,
-				"city":             foundUser.State,
-				"status_message":   foundUser.StatusMessage,
-				"match_preference": foundUser.MatchPreference,
-				"interests":        foundUser.Interests,
-				"email":            foundUser.Email,
-				"state":            foundUser.State,
+				"full_name": foundUser.FullName,
+				"email":     foundUser.Email,
 			},
 		},
 	}

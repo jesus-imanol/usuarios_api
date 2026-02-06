@@ -34,15 +34,8 @@ func (gubi *GetUserByIdController) GetUserByID(g *gin.Context) {
 			"type": "users",
 			"id":   user.Id,
 			"attributes": gin.H{
-				"full_name":        user.FullName,
-				"email":            user.Email,
-				"profile_picture":  user.ProfilePicture,
-				"gender":           user.Gender,
-				"city":             user.City,
-				"state":            user.State,
-				"status_message":   user.StatusMessage,
-				"match_preference": user.MatchPreference,
-				"interests":        user.Interests,
+				"full_name": user.FullName,
+				"email":     user.Email,
 			},
 		},
 	}

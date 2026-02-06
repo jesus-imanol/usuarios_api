@@ -50,9 +50,7 @@ func (ruc *RegisterUserController) RegisterUser(g *gin.Context) {
 	}
 
 	registeredUser, err2 := ruc.registerUserUseCase.Execute(
-		user.FullName, user.Email, passwordHashed, user.Gender,
-		user.MatchPreference, user.City, user.State, user.Interests,
-		user.StatusMessage, user.ProfilePicture,
+		user.FullName, user.Email, passwordHashed,
 	)
 	if err2 != nil {
 		g.JSON(http.StatusInternalServerError, gin.H{"error": err2.Error()})
@@ -71,15 +69,8 @@ func (ruc *RegisterUserController) RegisterUser(g *gin.Context) {
 			"type": "users",
 			"id":   registeredUser.Id,
 			"attributes": gin.H{
-				"full_name":        registeredUser.FullName,
-				"email":            registeredUser.Email,
-				"profile_picture":  registeredUser.ProfilePicture,
-				"gender":           registeredUser.Gender,
-				"city":             registeredUser.City,
-				"state":            registeredUser.State,
-				"status_message":   registeredUser.StatusMessage,
-				"match_preference": registeredUser.MatchPreference,
-				"interests":        registeredUser.Interests,
+				"full_name": registeredUser.FullName,
+				"email":     registeredUser.Email,
 			},
 		},
 	}

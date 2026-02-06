@@ -32,9 +32,7 @@ func (uuc *UpdateUserController) UpdateUser(g *gin.Context) {
 	}
 	idCheck := int32(id)
 
-	err = uuc.updateUserUseCase.Execute(idCheck, user.FullName, user.Email, user.PasswordHash, user.Gender,
-		user.MatchPreference, user.City, user.State, user.Interests,
-		user.StatusMessage)
+	err = uuc.updateUserUseCase.Execute(idCheck, user.FullName, user.Email, user.PasswordHash)
 	if err != nil {
 		g.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -45,14 +43,8 @@ func (uuc *UpdateUserController) UpdateUser(g *gin.Context) {
 			"type": "users",
 			"id":   user.Id,
 			"attributes": gin.H{
-				"full_name":        user.FullName,
-				"email":            user.Email,
-				"gender":           user.Gender,
-				"city":             user.City,
-				"state":            user.State,
-				"status_message":   user.StatusMessage,
-				"match_preference": user.MatchPreference,
-				"interests":        user.Interests,
+				"full_name": user.FullName,
+				"email":     user.Email,
 			},
 		},
 	}
