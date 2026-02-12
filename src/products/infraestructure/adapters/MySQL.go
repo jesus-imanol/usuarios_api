@@ -14,7 +14,7 @@ type MySQL struct {
 func NewMySQL() (*MySQL, error) {
 	conn := core.GetDBPool()
 	if conn.Err != "" {
-		log.Fatalf("Error al configurar el pool de conexiones: %v", conn.Err)
+		log.Println("Error al configurar el pool de conexiones: %v", conn.Err)
 	}
 	return &MySQL{conn: conn}, nil
 }

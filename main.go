@@ -34,16 +34,13 @@ func main() {
 	dependenciesproduct.InitProduct(r)
 	dependenciesuser.InitUsers(r)
 
-	// OBTENER EL PUERTO DE RAILWAY
-	// Railway asigna un puerto dinámico; si usamos :8080 fijo, la app no responderá
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080" // Valor por defecto si estás corriendo en local
+		port = "8080" 
 	}
 
 	log.Printf("Servidor iniciando en el puerto %s", port)
 	
-	// Cambiamos ":8080" por la variable port
 	if err := r.Run(":" + port); err != nil {
 		log.Fatal("Fallo al iniciar el servidor: ", err)
 	}
