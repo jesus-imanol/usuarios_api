@@ -18,9 +18,9 @@ type Conn_MySQL struct {
 func GetDBPool() *Conn_MySQL {
 	errorMsg := ""
 
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error al cargar el archivo .env: %v", err)
+	// Cambiado de Fatalf a Println para que no mate la app en Railway
+	if err := godotenv.Load(); err != nil {
+		log.Println("Aviso: No se encontró archivo .env, usando variables de entorno del sistema")
 	}
 
 	// Obtener las variables
