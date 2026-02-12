@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os" // Añadido para leer variables de entorno del sistema
 	dependenciesproduct "productos-api/src/products/infraestructure/dependencies_product"
 	dependenciesuser "productos-api/src/users/infraestructure/dependencies_user"
 	"time"
@@ -12,9 +13,10 @@ import (
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error loading .env file")
+	// Intentamos cargar el .env (útil para local), pero no matamos la app si falla
+	// En Railway, godotenv fallará porque las variables ya están en el sistema
+	if err := godotenv.Load(); err != nil {
+		log.Println("Aviso: No se encontró archivo .env, usando variables de entorno del sistema")
 	}
 
 	r := gin.Default()
@@ -32,7 +34,17 @@ func main() {
 	dependenciesproduct.InitProduct(r)
 	dependenciesuser.InitUsers(r)
 
-	if err := r.Run(":8080"); err != nil {
-		panic(err)
+	// OBTENER EL PUERTO DE RAILWAY
+	// Railway asigna un puerto dinámico; si usamos :8080 fijo, la app no responderá
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // Valor por defecto si estás corriendo en local
+	}
+
+	log.Printf("Servidor iniciando en el puerto %s", port)
+	
+	// Cambiamos ":8080" por la variable port
+	if err := r.Run(":" + port); err != nil {
+		log.Fatal("Fallo al iniciar el servidor: ", err)
 	}
 }

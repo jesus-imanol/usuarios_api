@@ -20,7 +20,7 @@ El proyecto sigue Clean Architecture con las siguientes capas:
 
 - **Core**: Utilidades compartidas
   - Configuración de base de datos
-  - Utilidades de hash y upload de archivos
+  - Utilidades de hash de contraseñas
 
 ---
 
@@ -28,8 +28,10 @@ El proyecto sigue Clean Architecture con las siguientes capas:
 
 ### Base URL
 ```
-http://localhost:8080
+https://joaquinproducts.chuy7x.space
 ```
+
+**Nota:** Para desarrollo local usar `http://localhost:8080`
 
 ---
 
@@ -200,14 +202,7 @@ http://localhost:8080
 {
   "full_name": "Juan Pérez",
   "email": "juan.perez@example.com",
-  "password_hash": "miPassword123",
-  "gender": "M",
-  "match_preference": "F",
-  "city": "Ciudad de México",
-  "state": "CDMX",
-  "interests": "deportes, música, cine",
-  "status_message": "¡Hola! Busco conocer gente nueva",
-  "profile_picture": ""
+  "password_hash": "miPassword123"
 }
 ```
 
@@ -219,14 +214,7 @@ http://localhost:8080
     "id": 1,
     "attributes": {
       "full_name": "Juan Pérez",
-      "email": "juan.perez@example.com",
-      "profile_picture": "",
-      "gender": "M",
-      "city": "Ciudad de México",
-      "state": "CDMX",
-      "status_message": "¡Hola! Busco conocer gente nueva",
-      "match_preference": "F",
-      "interests": "deportes, música, cine"
+      "email": "juan.perez@example.com"
     }
   }
 }
@@ -258,14 +246,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     "id": 1,
     "attributes": {
       "full_name": "Juan Pérez",
-      "profile_picture": "",
-      "gender": "M",
-      "city": "CDMX",
-      "status_message": "¡Hola! Busco conocer gente nueva",
-      "match_preference": "F",
-      "interests": "deportes, música, cine",
-      "email": "juan.perez@example.com",
-      "state": "CDMX"
+      "email": "juan.perez@example.com"
     }
   }
 }
@@ -297,14 +278,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
       "id": 1,
       "attributes": {
         "full_name": "Juan Pérez",
-        "profile_picture": "",
-        "gender": "M",
-        "city": "CDMX",
-        "status_message": "¡Hola! Busco conocer gente nueva",
-        "match_preference": "F",
-        "interests": "deportes, música, cine",
-        "email": "juan.perez@example.com",
-        "state": "CDMX"
+        "email": "juan.perez@example.com"
       }
     }
   ]
@@ -335,14 +309,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     "id": 1,
     "attributes": {
       "full_name": "Juan Pérez",
-      "email": "juan.perez@example.com",
-      "profile_picture": "",
-      "gender": "M",
-      "city": "Ciudad de México",
-      "state": "CDMX",
-      "status_message": "¡Hola! Busco conocer gente nueva",
-      "match_preference": "F",
-      "interests": "deportes, música, cine"
+      "email": "juan.perez@example.com"
     }
   }
 }
@@ -360,13 +327,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 {
   "full_name": "Juan Pérez Actualizado",
   "email": "juan.perez@example.com",
-  "password_hash": "newPassword123",
-  "gender": "M",
-  "match_preference": "F",
-  "city": "Guadalajara",
-  "state": "Jalisco",
-  "interests": "deportes, música, cine, lectura",
-  "status_message": "Actualizado mi perfil"
+  "password_hash": "newPassword123"
 }
 ```
 
@@ -378,13 +339,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     "id": 1,
     "attributes": {
       "full_name": "Juan Pérez Actualizado",
-      "email": "juan.perez@example.com",
-      "gender": "M",
-      "city": "Guadalajara",
-      "state": "Jalisco",
-      "status_message": "Actualizado mi perfil",
-      "match_preference": "F",
-      "interests": "deportes, música, cine, lectura"
+      "email": "juan.perez@example.com"
     }
   }
 }
@@ -416,36 +371,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 }
 ```
 
----
 
-### 7. Subir Foto de Perfil
-**Endpoint:** `PUT /v1/users/upload-picture/:id`
-
-**Ejemplo:** `PUT /v1/users/upload-picture/1`
-
-**Request:**
-- **Content-Type:** `multipart/form-data`
-- **Campo:** `profile_picture` (archivo de imagen)
-
-**Response (200 OK):**
-```json
-{
-  "data": {
-    "type": "users",
-    "id": 1,
-    "attributes": {
-      "profile_picture": "https://spontaneity-2025.s3.amazonaws.com/filename.jpg"
-    }
-  }
-}
-```
-
-**Response en caso de error (400/500):**
-```json
-{
-  "error": "Failed to get profile picture"
-}
-```
 
 ---
 
@@ -457,7 +383,7 @@ Crear un archivo `.env` en la raíz del proyecto con las siguientes variables:
 
 ```env
 # Base de datos MySQL
-DB_HOST=localhost
+DB_HOST=tu_host
 DB_USER=tu_usuario
 DB_PASS=tu_contraseña
 DB_SCHEMA=tu_base_de_datos
@@ -467,11 +393,6 @@ JWT_SECRET=tu_secreto_jwt_aqui
 
 # Secret Key para hash de contraseñas
 SECRET_KEY=tu_secreto_para_passwords
-
-# AWS S3 (para subida de imágenes)
-aws_access_key_id=tu_access_key
-aws_secret_access_key=tu_secret_key
-aws_session_token=tu_session_token
 ```
 
 ---
@@ -494,19 +415,12 @@ CREATE TABLE products (
 ### Tabla de Usuarios
 
 ```sql
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
-    gender VARCHAR(10),
-    match_preference VARCHAR(10),
-    city VARCHAR(100),
-    state VARCHAR(100),
-    interests TEXT,
-    status_message TEXT,
-    profile_picture TEXT,
-    deleted BOOLEAN DEFAULT 0,
+    deleted TINYINT(1) DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -542,7 +456,7 @@ Ejecutar los scripts SQL proporcionados anteriormente.
 go run main.go
 ```
 
-La API estará disponible en: **http://localhost:8080**
+La API estará disponible en: **https://joaquinproducts.chuy7x.space** (producción) o **http://localhost:8080** (desarrollo)
 
 ---
 
@@ -552,7 +466,7 @@ La API estará disponible en: **http://localhost:8080**
 
 **Crear un producto:**
 ```bash
-curl -X POST http://localhost:8080/v1/products \
+curl -X POST https://joaquinproducts.chuy7x.space/v1/products \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Laptop HP",
@@ -563,17 +477,17 @@ curl -X POST http://localhost:8080/v1/products \
 
 **Obtener todos los productos:**
 ```bash
-curl http://localhost:8080/v1/products
+curl https://joaquinproducts.chuy7x.space/v1/products
 ```
 
 **Obtener un producto por ID:**
 ```bash
-curl http://localhost:8080/v1/products/1
+curl https://joaquinproducts.chuy7x.space/v1/products/1
 ```
 
 **Actualizar un producto:**
 ```bash
-curl -X PUT http://localhost:8080/v1/products/1 \
+curl -X PUT https://joaquinproducts.chuy7x.space/v1/products/1 \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Laptop HP Actualizado",
@@ -584,32 +498,25 @@ curl -X PUT http://localhost:8080/v1/products/1 \
 
 **Eliminar un producto:**
 ```bash
-curl -X DELETE http://localhost:8080/v1/products/1
+curl -X DELETE https://joaquinproducts.chuy7x.space/v1/products/1
 ```
 
 ### Usuarios
 
 **Registrar un usuario:**
 ```bash
-curl -X POST http://localhost:8080/v1/users \
+curl -X POST https://joaquinproducts.chuy7x.space/v1/users \
   -H "Content-Type: application/json" \
   -d '{
     "full_name": "María García",
     "email": "maria@example.com",
-    "password_hash": "password123",
-    "gender": "F",
-    "match_preference": "M",
-    "city": "Monterrey",
-    "state": "Nuevo León",
-    "interests": "viajes, fotografía",
-    "status_message": "Explorando el mundo",
-    "profile_picture": ""
+    "password_hash": "password123"
   }'
 ```
 
 **Login:**
 ```bash
-curl -X POST http://localhost:8080/v1/users/login \
+curl -X POST https://joaquinproducts.chuy7x.space/v1/users/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "maria@example.com",
@@ -617,10 +524,30 @@ curl -X POST http://localhost:8080/v1/users/login \
   }'
 ```
 
-**Subir foto de perfil:**
+**Obtener todos los usuarios:**
 ```bash
-curl -X PUT http://localhost:8080/v1/users/upload-picture/1 \
-  -F "profile_picture=@/ruta/a/tu/imagen.jpg"
+curl https://joaquinproducts.chuy7x.space/v1/users
+```
+
+**Obtener usuario por ID:**
+```bash
+curl https://joaquinproducts.chuy7x.space/v1/users/1
+```
+
+**Actualizar un usuario:**
+```bash
+curl -X PUT https://joaquinproducts.chuy7x.space/v1/users/1 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "full_name": "María García Actualizada",
+    "email": "maria@example.com",
+    "password_hash": "newPassword456"
+  }'
+```
+
+**Eliminar un usuario:**
+```bash
+curl -X DELETE https://joaquinproducts.chuy7x.space/v1/users/1
 ```
 
 ---
@@ -633,7 +560,6 @@ curl -X PUT http://localhost:8080/v1/users/upload-picture/1 \
 - **godotenv** - Manejo de variables de entorno
 - **bcrypt** - Hash de contraseñas
 - **JWT-Go** - Autenticación con tokens
-- **AWS SDK Go** - Integración con Amazon S3
 - **CORS** - Configuración de Cross-Origin Resource Sharing
 
 ---
@@ -700,17 +626,18 @@ inventario_productos/
 - Las contraseñas se almacenan hasheadas usando **bcrypt**
 - Los tokens JWT tienen una expiración de 72 horas
 - Se implementa CORS para control de acceso
-- Las imágenes se suben a AWS S3 con configuración segura
+- El email es único en la base de datos
 
 ---
 
 ## 📝 Notas Importantes
 
-1. **Formato de Respuesta:** Todas las respuestas siguen el estándar JSON API con estructura `data`, `type`, `id`, y `attributes`
-2. **Eliminación Suave:** Los usuarios se eliminan de forma lógica (soft delete) con el campo `deleted`
-3. **Validación:** Se recomienda agregar validaciones adicionales en el frontend
-4. **HTTPS:** En producción, usar HTTPS para todas las comunicaciones
-5. **AWS S3:** Configurar el bucket con las políticas de acceso adecuadas
+1. **Dominio de Producción:** La API está desplegada en `https://joaquinproducts.chuy7x.space`
+2. **Formato de Respuesta:** Todas las respuestas siguen el estándar JSON API con estructura `data`, `type`, `id`, y `attributes`
+3. **Eliminación Suave:** Los usuarios se eliminan de forma lógica (soft delete) con el campo `deleted`
+4. **Validación:** Se recomienda agregar validaciones adicionales en el frontend
+5. **HTTPS:** En producción se usa HTTPS para todas las comunicaciones
+6. **Autenticación:** El token JWT se retorna en el header `Authorization` con el formato `Bearer <token>`
 
 ---
 
